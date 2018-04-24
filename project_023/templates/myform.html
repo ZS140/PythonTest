@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <form action=""method="post" style="background-color:royalblue ;padding-bottom: 20px;position: center">
+        <h2><font color="white">留言簿</font></h2>
+        <div style="padding: 20px;background-color:lightskyblue">
+        <p >请尽请留言吧：</p>
+        姓名：<input required type="text" name="first_name">
+        <br>
+            <br>
+        内容：<textarea rows="5" cols="40" style="vertical-align: middle;resize: none" name="text"></textarea>
+        <br>
+        <input required type="submit"name="提交" style="margin-top: 5px ;font-size: 10px">
+        </div>
+        <div style="background-color: white;padding-left: 20px">
+             <h3>留言历史信息</h3>
+            {% if msgs != None %}
+                {% for msg in msgs %}
+                    {{ msg[1] }}&nbsp;&nbsp;{{ msg[2] }}
+                    <p style="background-color:aliceblue;white-space: nowrap">{{ msg[3] }}</p>
+                {% endfor %}
+            {% else %}
+                <p>&lt;空&gt;</p>
+            {% endif %}
+        </div>
+    </form>
+</body>
+</html>
