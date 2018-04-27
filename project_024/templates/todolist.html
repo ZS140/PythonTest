@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Todolist</title>
+</head>
+<body>
+    <form method="post"name = 'form' style="width:1000px;background-color: lightskyblue;padding: 20px;margin:50px auto;">
+    <h1 style="text-align: center">Todolist</h1>
+        <div style="text-align: right">
+            名称：<input style="border-radius: 5px" id="search_value" name="search_value" >  <input style="border-radius: 5px" type="button" value="search" onclick="search()" >
+        </div>
+        <table style="margin-top: 30px" border="1" cellpadding="10" cellspacing="0">
+            <tr>
+                <td width="600px"style="text-align: center">任务</td>
+                <td width="200px"style="text-align: center">时间</td>
+                <td width="200px"style="text-align: center">管理</td>
+            </tr>
+            {% if page != None %}
+                {% for msg in page[page_now] %}
+                <tr>
+                    <td width="600px"style="padding-left: 50px;"><font color="#f0f8ff">{{ msg[1] }}</font></td>
+                    <td width="200px"style="text-align: center"><font color="#f0f8ff">{{ msg[2] }}</font></td>
+                    <td width="200px"style="text-align: center;"><a href="{{ url_for('del_mysql',task_id = msg[0],page_now=page_now) }}"style="text-decoration: none">删除</a></td>
+                </tr>
+                {% endfor %}
+
+            {% else %}
+                <tr>
+                    <td width="600px"style="padding-left: 50px;"><font color="#f0f8ff">&lt;空&gt;</font></td>
+                    <td width="200px"style="text-align: center"><font color="#f0f8ff">&lt;空&gt;</font></td>
+                    <td width="200px"style="text-align: center;"></td>
+                </tr>
+            {% endif %}
+        </table>
+        <div style="text-align: center;margin-top: 20px">
+            {% if page_now != 1 and page_now != 0%}
+                <a style="text-decoration: none;border: 1px solid #000;padding: 5px" href="{{ url_for('todo',page_now=page_now - 1) }}">上一页</a>
+            {% endif %}
+            {% if page != None %}
+                <a style="border: 1px solid #000;padding: 5px 10px;">{{ page_now }}</a>
+            {% endif %}
+            {% if page_now != nums and page_now != 0%}
+                <a  style="text-decoration: none;border: 1px solid #000;padding: 5px" href="{{ url_for('todo',page_now=page_now + 1) }}">下一页</a>
+            {% endif %}</div>
+        <input type="button" style="border-radius:5px;margin-top: 30px" value="创建任务"onclick="create()">  <input id="task_value"name="task"style="border-radius: 5px">
+    </form>
+<script>
+    function search() {
+        var value = document.getElementById('search_value').value;
+        if (value ==""|undefined|null){
+            alert('搜索内容不能为空');
+        }else{
+            document.form.action='{{ url_for('search') }}';
+        document.form.submit();
+        }
+    }
+    function create() {
+        var value = document.getElementById('task_value').value
+        if (value == ""|undefined|null){
+            alert('创建内容不能为空');
+        }else {
+            document.form.action = '{{ url_for('todo',page_now=1) }}';
+            document.form.submit();
+        }
+    }
+
+</script>
+</body>
+</html>
